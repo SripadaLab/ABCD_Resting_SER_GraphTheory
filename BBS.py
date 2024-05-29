@@ -47,9 +47,10 @@ def BBS(X, y, covariates, fold_structure, n_nested_cv=5):
     
     
     np.random.seed(42)                  # set numpy RandomState for reproducibility
-    n_pcs_consider = min(X.shape)       # maximum number of principal components evaluated for predictive modeling (higher means longer runtime)
     test_rs = []                        # list of length (number_of_cross_validation_folds) that will be populated with the predictive performance for each CV fold
     n_pcs_selected = []                 # list of length (number_of_cross_validation_folds) that will be populated with the number of PCs selected by nested cross-validation for each CV fold
+    if n_pcs_consider is None:          # maximum number of principal components evaluated for predictive modeling (higher means longer runtime)
+        n_pcs_consider = np.arange(min(X.shape))
     
     for train_idxs, test_idxs in fold_structure:
         # shuffle train_idxs and chunk into held-oout fold structure for nested cross validation
